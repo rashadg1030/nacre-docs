@@ -1,0 +1,67 @@
+---
+title: Nacre.Server
+---
+
+API reference for the `Nacre.Server` module.
+
+<HaskellRefList defs={[
+  {
+    kind: 'function',
+    name: 'Server.do',
+    signature: 'Server.do :: Action -> ... -> Server',
+    module: 'Nacre.Server',
+    description: 'Combine actions into a server using QualifiedDo syntax.',
+    example: `{-# LANGUAGE QualifiedDo #-}
+
+server = Server.do
+  getUserAction
+  createUserAction
+  updateUserAction
+  deleteUserAction`,
+  },
+  {
+    kind: 'function',
+    name: '(:<>)',
+    signature: '(:<>) :: Action -> Action -> Server',
+    module: 'Nacre.Server',
+    description: 'Combine actions without QualifiedDo.',
+    example: `server
+  = getUserAction
+  :<> createUserAction
+  :<> updateUserAction`,
+  },
+  {
+    kind: 'function',
+    name: 'runServer',
+    signature: 'runServer :: Int -> Server -> IO ()',
+    module: 'Nacre.Server',
+    description: 'Run the server on a port.',
+    example: `main :: IO ()
+main = runServer 3000 server`,
+  },
+  {
+    kind: 'function',
+    name: 'runServerWithSettings',
+    signature: 'runServerWithSettings :: Settings -> Server -> IO ()',
+    module: 'Nacre.Server',
+    description: 'Run the server with custom settings.',
+    example: `main :: IO ()
+main = runServerWithSettings settings server
+  where
+    settings = defaultSettings
+      & setPort 8080
+      & setHost "0.0.0.0"`,
+  },
+  {
+    kind: 'data',
+    name: 'Server',
+    module: 'Nacre.Server',
+    description: 'A collection of actions forming a complete API server.',
+  },
+  {
+    kind: 'data',
+    name: 'Settings',
+    module: 'Nacre.Server',
+    description: 'Server configuration settings.',
+  },
+]} />

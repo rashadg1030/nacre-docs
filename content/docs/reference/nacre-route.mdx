@@ -1,0 +1,38 @@
+---
+title: Nacre.Route
+---
+
+API reference for the `Nacre.Route` module.
+
+<HaskellRefList defs={[
+  {
+    kind: 'function',
+    name: '(:->)',
+    signature: '(:->) :: Request path query headers reqBody -> Response resHeaders resBody -> Route path query headers reqBody resHeaders resBody',
+    module: 'Nacre.Route',
+    description: 'Connect a request to a response, creating a route.',
+    example: `route = input :-> output`,
+  },
+  {
+    kind: 'function',
+    name: 'either',
+    signature: 'either :: Response h1 b1 -> Response h2 b2 -> Either (Response h1 b1) (Response h2 b2)',
+    module: 'Nacre.Route',
+    description: 'Allow multiple possible responses. The handler must return Either to indicate which response.',
+    example: `route = input :-> either notFound success
+
+-- Handler returns Either
+action = route := \\_ -> do
+  result <- someOperation
+  case result of
+    Nothing -> pure $ Left notFoundBody
+    Just x  -> pure $ Right x`,
+  },
+  {
+    kind: 'data',
+    name: 'Route',
+    params: ['path', 'query', 'headers', 'reqBody', 'resHeaders', 'resBody'],
+    module: 'Nacre.Route',
+    description: 'A route connecting a request specification to a response specification.',
+  },
+]} />

@@ -1,0 +1,68 @@
+---
+title: Getting Started
+---
+
+Get up and running with Nacre in minutes.
+
+## Installation
+
+Add Nacre to your project's dependencies:
+
+```txt
+build-depends:
+  nacre
+```
+
+Or with Stack:
+
+```yaml
+dependencies:
+  - nacre
+```
+
+## Your First API
+
+Create a simple "Hello, World" endpoint:
+
+```haskell
+{-# LANGUAGE QualifiedDo #-}
+
+module Main where
+
+import Nacre
+
+-- Define the request
+input = request
+  & method GET
+  & path (lit "hello")
+
+-- Define the response
+output = response
+  & status 200
+  & body @Text
+
+-- Create the route and bind the handler
+helloAction = (input :-> output) := \_ ->
+  pure "Hello, World!"
+
+-- Run the server
+main :: IO ()
+main = runServer 3000 $ Server.do
+  helloAction
+```
+
+## Run It
+
+```bash
+cabal run
+```
+
+Visit `http://localhost:3000/hello` to see your API in action.
+
+## Next Steps
+
+<Cards>
+  <Card title="Features" href="/docs/features" />
+  <Card title="Concepts" href="/docs/concepts" />
+  <Card title="Integrations" href="/docs/integrations" />
+</Cards>

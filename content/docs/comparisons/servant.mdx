@@ -1,0 +1,49 @@
+---
+title: vs Servant
+---
+
+Nacre and Servant are both type-safe Haskell web frameworks, but they take different approaches.
+
+## API Definition
+
+**Servant** uses type-level API definitions:
+
+```haskell
+type API = "users" :> Capture "id" Int :> Get '[JSON] User
+```
+
+**Nacre** uses a value-level DSL:
+
+```haskell
+input = request
+  & method GET
+  & path (lit "users" *> capture @Int "id")
+
+output = response
+  & status 200
+  & body @User
+
+route = input :-> output
+```
+
+## Trade-offs
+
+| Aspect | Nacre | Servant |
+|--------|-------|---------|
+| Error messages | Clear, value-level | Complex, type-level |
+| Compile times | Faster | Slower |
+| IDE support | Better | Limited |
+| Flexibility | High | Moderate |
+| Ecosystem | New | Mature |
+
+## When to Choose Nacre
+
+- You want readable error messages
+- Compile times matter to your workflow
+- You prefer explicit, composable building blocks
+
+## When to Choose Servant
+
+- You need the mature ecosystem and community
+- You're already invested in Servant's patterns
+- You want client generation from types

@@ -1,0 +1,22 @@
+---
+title: Method
+---
+
+The Method DSL specifies which HTTP method(s) the request accepts.
+
+```haskell
+input = request
+  & method GET
+```
+
+## Available Methods
+
+```haskell
+method GET
+method POST
+method PUT
+method DELETE
+method PATCH
+method HEAD
+method OPTIONS
+```

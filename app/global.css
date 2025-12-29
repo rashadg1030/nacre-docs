@@ -1,3 +1,151 @@
 @import 'tailwindcss';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
+
+/* Register fonts from Next.js */
+@theme inline {
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+}
+
+/* Fumadocs color overrides */
+:root {
+  --color-fd-background: 40 33% 98%;
+  --color-fd-foreground: 220 20% 10%;
+}
+
+.dark {
+  --color-fd-background: 220 20% 8%;
+  --color-fd-foreground: 40 33% 96%;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+pre, code {
+  font-family: var(--font-mono);
+  font-feature-settings: "liga" 1, "calt" 1;
+}
+
+.no-ligatures pre,
+.no-ligatures code {
+  font-feature-settings: "liga" 0, "calt" 0;
+}
+
+/* Glassmorphic navbar */
+[data-nav],
+header:has(nav) {
+  background: hsl(var(--color-fd-background) / 0.8);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1px solid hsl(var(--color-fd-foreground) / 0.06);
+}
+
+/* Nacre pearlescent effect - for hover interactions */
+@property --nacre-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes nacre-shimmer {
+  from { --nacre-angle: 0deg; }
+  to { --nacre-angle: 360deg; }
+}
+
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes border-trace {
+  from { --border-angle: 0deg; }
+  to { --border-angle: 360deg; }
+}
+
+.nacre-hover {
+  position: relative;
+  overflow: visible;
+  z-index: 0;
+}
+
+/* Shimmer overlay */
+.nacre-hover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    var(--nacre-angle),
+    hsl(340 80% 75% / 0.25),
+    hsl(200 80% 75% / 0.25),
+    hsl(160 80% 75% / 0.25),
+    hsl(280 80% 75% / 0.25),
+    hsl(340 80% 75% / 0.25)
+  );
+  opacity: 1;
+  pointer-events: none;
+  animation: nacre-shimmer 4s linear infinite;
+  z-index: 1;
+}
+
+/* Tracing border - wrapper for the effect */
+.nacre-hover::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: calc(0.5rem + 3px);
+  padding: 3px;
+  background: conic-gradient(
+    from var(--border-angle),
+    transparent 0deg,
+    transparent 30deg,
+    hsl(280 80% 65%) 60deg,
+    hsl(280 90% 80%) 90deg,
+    hsl(280 80% 65%) 120deg,
+    transparent 150deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+  transition: opacity 0.3s ease-out;
+}
+
+.nacre-hover:hover::after {
+  opacity: 1;
+  animation: border-trace 1.2s linear infinite;
+}
+
+/* Pearl logo */
+.pearl-logo {
+  background:
+    radial-gradient(circle at 30% 30%, hsl(0 0% 100% / 0.8) 0%, transparent 40%),
+    linear-gradient(
+      var(--nacre-angle),
+      hsl(340 60% 85%),
+      hsl(200 60% 85%),
+      hsl(160 60% 85%),
+      hsl(280 60% 85%),
+      hsl(340 60% 85%)
+    );
+  box-shadow:
+    inset 0 -2px 4px hsl(0 0% 0% / 0.1),
+    0 1px 2px hsl(0 0% 0% / 0.1);
+  animation: nacre-shimmer 6s linear infinite;
+}
+

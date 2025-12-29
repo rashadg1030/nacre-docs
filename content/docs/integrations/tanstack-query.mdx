@@ -1,0 +1,51 @@
+---
+title: TanStack Query
+---
+
+Use Nacre APIs with TanStack Query (React Query).
+
+## Installation
+
+```bash
+npm install @nacre/tanstack-query @tanstack/react-query
+```
+
+## Setup
+
+```tsx
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { NacreProvider } from '@nacre/tanstack-query';
+
+const queryClient = new QueryClient();
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <NacreProvider baseUrl="http://localhost:3000">
+        <YourApp />
+      </NacreProvider>
+    </QueryClientProvider>
+  );
+}
+```
+
+## Usage
+
+```tsx
+import { useGetUser, useCreateUser } from './nacre-client';
+
+function UserProfile({ userId }: { userId: number }) {
+  const query = useGetUser(userId);
+  const mutation = useCreateUser();
+
+  // Full TanStack Query features available
+  return (
+    <div>
+      {query.data?.name}
+      <button onClick={() => mutation.mutate({ name: 'New User' })}>
+        Create User
+      </button>
+    </div>
+  );
+}
+```

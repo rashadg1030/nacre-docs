@@ -1,0 +1,59 @@
+---
+title: Nacre.Response
+---
+
+API reference for the `Nacre.Response` module.
+
+<HaskellRefList defs={[
+  {
+    kind: 'value',
+    name: 'response',
+    signature: "response :: Response '[] 'Nothing",
+    module: 'Nacre.Response',
+    description: 'The base response builder.',
+  },
+  {
+    kind: 'function',
+    name: 'status',
+    signature: 'status :: Int -> Response headers body -> Response headers body',
+    module: 'Nacre.Response',
+    description: 'Set the HTTP status code.',
+    example: `output = response & status 200
+output = response & status 404`,
+  },
+  {
+    kind: 'function',
+    name: 'headers',
+    signature: 'headers :: Headers a -> Response headers body -> Response a body',
+    module: 'Nacre.Response',
+    description: 'Define response headers.',
+    example: `output = response
+  & status 200
+  & headers (header "X-Request-Id" @Text)`,
+  },
+  {
+    kind: 'value',
+    name: 'none',
+    signature: "none :: Headers '[]",
+    module: 'Nacre.Response',
+    description: 'Empty headers.',
+    example: `output = response & headers none`,
+  },
+  {
+    kind: 'function',
+    name: 'body',
+    signature: 'body :: forall a. ToJSON a => Response headers body -> Response headers a',
+    module: 'Nacre.Response',
+    description: 'Define the response body type. The body will be serialized as JSON.',
+    example: `output = response
+  & status 200
+  & body @User`,
+  },
+  {
+    kind: 'data',
+    name: 'Response',
+    params: ['headers', 'body'],
+    module: 'Nacre.Response',
+    description: 'A type-safe response specification.',
+  },
+]} />

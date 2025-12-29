@@ -1,0 +1,40 @@
+---
+title: Body
+---
+
+The Body DSL specifies the response body type.
+
+```haskell
+body @User
+body @Text
+body @Value
+```
+
+## JSON Response
+
+Return a type as JSON:
+
+```haskell
+data User = User
+  { id :: Int
+  , name :: Text
+  }
+
+body @User
+```
+
+## Text Response
+
+Return plain text:
+
+```haskell
+body @Text
+```
+
+## No Body
+
+For responses with no body (like 204 No Content):
+
+```haskell
+body none
+```

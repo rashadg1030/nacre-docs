@@ -1,0 +1,123 @@
+---
+title: Nacre.Request
+---
+
+API reference for the `Nacre.Request` module.
+
+<HaskellRefList defs={[
+  {
+    kind: 'value',
+    name: 'request',
+    signature: "request :: Request '[] '[] '[] '[]",
+    module: 'Nacre.Request',
+    description: 'The base request builder. Start here to define incoming requests.',
+    example: `input = request
+  & method GET
+  & path (lit "users")`,
+  },
+  {
+    kind: 'function',
+    name: 'method',
+    signature: 'method :: Method -> Request path query headers body -> Request path query headers body',
+    module: 'Nacre.Request',
+    description: 'Set the HTTP method for the request.',
+    example: `input = request & method GET
+input = request & method POST
+input = request & method DELETE`,
+  },
+  {
+    kind: 'function',
+    name: 'path',
+    signature: 'path :: Path a -> Request path query headers body -> Request a query headers body',
+    module: 'Nacre.Request',
+    description: 'Define the URL path with optional captures. Use path combinators to build complex routes.',
+    example: `-- Simple literal path
+input = request & path (lit "users")
+
+-- With capture
+input = request & path (lit "users" *> capture @Int "id")
+
+-- Multiple segments
+input = request & path (lit "api" *> lit "v1" *> lit "users")`,
+  },
+  {
+    kind: 'function',
+    name: 'lit',
+    signature: 'lit :: Text -> Path ()',
+    module: 'Nacre.Request.Path',
+    description: 'Match a literal path segment.',
+    example: `path (lit "users")  -- matches /users`,
+  },
+  {
+    kind: 'function',
+    name: 'capture',
+    signature: 'capture :: forall a. FromHttpApiData a => Text -> Path a',
+    module: 'Nacre.Request.Path',
+    description: 'Capture a path parameter and parse it to the specified type.',
+    example: `path (capture @Int "id")     -- captures /123 as Int
+path (capture @Text "slug")  -- captures /foo as Text`,
+  },
+  {
+    kind: 'function',
+    name: 'query',
+    signature: 'query :: Query a -> Request path query headers body -> Request path a headers body',
+    module: 'Nacre.Request',
+    description: 'Define query parameters for the request.',
+    example: `input = request & query do
+  page <- param @Int "page"
+  limit <- param @Int "limit"
+  pure (page, limit)`,
+  },
+  {
+    kind: 'function',
+    name: 'param',
+    signature: 'param :: forall a. FromHttpApiData a => Text -> Query a',
+    module: 'Nacre.Request.Query',
+    description: 'Parse a required query parameter.',
+    example: `query (param @Int "page")  -- ?page=1`,
+  },
+  {
+    kind: 'function',
+    name: 'header',
+    signature: "header :: forall a. FromHttpApiData a => Text -> Request path query headers body -> Request path query (a ': headers) body",
+    module: 'Nacre.Request',
+    description: 'Require a header and parse its value.',
+    example: `input = request & header @Text "X-Request-Id"
+input = request & header @Token "Authorization"`,
+  },
+  {
+    kind: 'function',
+    name: 'body',
+    signature: 'body :: forall a. FromJSON a => Request path query headers body -> Request path query headers a',
+    module: 'Nacre.Request',
+    description: 'Define the expected request body type. The body will be parsed as JSON.',
+    example: `input = request
+  & method POST
+  & path (lit "users")
+  & body @CreateUserRequest`,
+  },
+  {
+    kind: 'data',
+    name: 'Request',
+    params: ['path', 'query', 'headers', 'body'],
+    module: 'Nacre.Request',
+    description: 'A type-safe request specification. The type parameters track what data will be available to the handler.',
+    constructors: [],
+    instances: ['Show (Request p q h b)', 'Eq (Request p q h b)'],
+  },
+  {
+    kind: 'data',
+    name: 'Method',
+    module: 'Nacre.Request',
+    description: 'HTTP methods.',
+    constructors: [
+      { name: 'GET' },
+      { name: 'POST' },
+      { name: 'PUT' },
+      { name: 'PATCH' },
+      { name: 'DELETE' },
+      { name: 'HEAD' },
+      { name: 'OPTIONS' },
+    ],
+  },
+]} />

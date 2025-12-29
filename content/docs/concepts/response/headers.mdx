@@ -1,0 +1,26 @@
+---
+title: Headers
+---
+
+The Headers DSL specifies response headers.
+
+```haskell
+headers do
+  header "Content-Type" "application/json"
+  header "X-Request-Id" requestId
+```
+
+## Setting Headers
+
+```haskell
+header "Cache-Control" "max-age=3600"
+header "X-Custom-Header" value
+```
+
+## No Headers
+
+When no custom headers are needed:
+
+```haskell
+headers none
+```

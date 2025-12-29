@@ -1,0 +1,66 @@
+---
+title: Features
+---
+
+What makes Nacre different.
+
+## Type-Safe Routes
+
+Define your API shape once. The compiler ensures your handlers match.
+
+```haskell
+route = input :-> output
+
+-- Handler must return the correct type
+action = route := handler
+```
+
+## Composable Building Blocks
+
+Build complex APIs from simple, reusable pieces.
+
+```haskell
+-- Reusable authentication
+withAuth = request & header @Token "Authorization"
+
+-- Compose into routes
+protectedInput = withAuth & method GET & path (lit "profile")
+```
+
+## Clear Error Messages
+
+Value-level DSL means readable errors, not type-level puzzles.
+
+## Fast Compile Times
+
+No heavy type-level machinery. Your feedback loop stays tight.
+
+## Layered Architecture
+
+Each layer has a single responsibility:
+
+| Layer | Purpose |
+|-------|---------|
+| Request | What comes in |
+| Response | What goes out |
+| Route | Connect request to response |
+| Action | Bind handler to route |
+| Server | Combine actions |
+
+## Middleware Support
+
+Add cross-cutting concerns without boilerplate.
+
+```haskell
+withLogging = middleware $ \req next -> do
+  log req
+  next req
+```
+
+## Client Generation
+
+Generate type-safe clients for your frontend.
+
+```haskell
+-- Coming soon
+```

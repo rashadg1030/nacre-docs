@@ -1,0 +1,30 @@
+---
+title: Handler
+---
+
+Handlers are the functions that implement your API logic. They receive parsed request data and return one of the specified responses.
+
+```haskell
+-- A handler is a function from parsed input to output
+handler = \Input{..} -> do
+  print pathData.name
+  print queryData.loc
+  return $
+    if queryData.age < 12 then
+      Left "Go to school!"
+    else
+      Right $ "Welcome! Nice to meet you, " <> pathData.name <> "."
+```
+
+## Request Data
+
+Handlers have access to parsed request components:
+
+- `pathData` - parsed path parameters
+- `queryData` - parsed query parameters
+- `bodyData` - parsed request body
+- `headerData` - parsed headers
+
+## Type Safety
+
+The handler's input and output types are derived from the route specification, ensuring compile-time safety between your API contract and implementation.

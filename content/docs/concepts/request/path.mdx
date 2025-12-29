@@ -1,0 +1,47 @@
+---
+title: Path
+---
+
+The Path DSL defines URL path matching and parameter extraction.
+
+```haskell
+path do
+  lit "users"
+  userId <- capture @Int "id"
+  lit "posts"
+  postId <- capture @Int "postId"
+  pure (userId, postId)
+```
+
+## Literal Segments
+
+Match exact path segments:
+
+```haskell
+lit "users"
+lit "api"
+lit "v1"
+```
+
+## Capture Parameters
+
+Extract typed values from path segments:
+
+```haskell
+capture @Int "id"
+capture @Text "slug"
+capture @UUID "uuid"
+```
+
+## Combining Paths
+
+Use do-notation to combine path operations:
+
+```haskell
+path do
+  lit "api"
+  lit "v1"
+  lit "users"
+  userId <- capture @Int "id"
+  pure userId
+```

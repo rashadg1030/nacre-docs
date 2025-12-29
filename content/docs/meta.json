@@ -1,0 +1,13 @@
+{
+  "title": "Documentation",
+  "pages": [
+    "index",
+    "getting-started",
+    "features",
+    "concepts",
+    "integrations",
+    "reference",
+    "comparisons",
+    "architecture"
+  ]
+}

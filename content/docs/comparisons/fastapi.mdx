@@ -1,0 +1,52 @@
+---
+title: vs FastAPI
+---
+
+Nacre and FastAPI target different languages but share a focus on developer experience and type safety.
+
+## API Definition
+
+**FastAPI** uses Python decorators with type hints:
+
+```python
+@app.get("/users/{user_id}")
+def get_user(user_id: int) -> User:
+    return find_user(user_id)
+```
+
+**Nacre** uses a Haskell DSL:
+
+```haskell
+input = request
+  & method GET
+  & path (lit "users" *> capture @Int "id")
+
+output = response
+  & status 200
+  & body @User
+
+action = (input :-> output) := \Input{..} ->
+  findUser pathData
+```
+
+## Trade-offs
+
+| Aspect | Nacre | FastAPI |
+|--------|-------|---------|
+| Type checking | Compile-time | Runtime |
+| Performance | Native compiled | Async Python |
+| Ecosystem | Haskell libraries | Python ecosystem |
+| Learning curve | Steeper | Gentler |
+| Refactoring safety | Excellent | Good |
+
+## When to Choose Nacre
+
+- You need compile-time guarantees
+- Performance is critical
+- You're building in a Haskell stack
+
+## When to Choose FastAPI
+
+- Your team knows Python
+- You need the Python ecosystem
+- Rapid prototyping is the priority

@@ -1,0 +1,29 @@
+---
+title: Server
+---
+
+A server combines multiple actions into a complete API.
+
+```haskell
+server
+  = action1
+  :<> action2
+  :<> action3
+```
+
+## Using QualifiedDo
+
+For cleaner syntax, use `QualifiedDo` with the `Server` module:
+
+```haskell
+server = Server.do
+  action1
+  action2
+  action3
+```
+
+This requires the `QualifiedDo` language extension:
+
+```haskell
+{-# LANGUAGE QualifiedDo #-}
+```

@@ -1,0 +1,35 @@
+---
+title: React
+---
+
+Use Nacre APIs with React.
+
+## Installation
+
+```bash
+npm install @nacre/react
+```
+
+## Usage
+
+```tsx
+import { useGetUser } from './nacre-client';
+
+function UserProfile({ userId }: { userId: number }) {
+  const { data, isLoading, error } = useGetUser(userId);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return <div>{data.name}</div>;
+}
+```
+
+## Generated Hooks
+
+Nacre generates React hooks for each action in your server:
+
+- `useGetUser` - Fetch a user
+- `useCreateUser` - Create a user
+- `useUpdateUser` - Update a user
+- `useDeleteUser` - Delete a user

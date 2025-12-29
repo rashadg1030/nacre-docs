@@ -1,0 +1,26 @@
+---
+title: Architecture
+---
+
+A deep dive into Nacre's internal architecture for advanced users and contributors.
+
+## Core Design
+
+Nacre is built on a layered architecture:
+
+1. **DSL Layer** - The user-facing combinators for building APIs
+2. **Type Layer** - Compile-time type checking and inference
+3. **Runtime Layer** - Request parsing, routing, and response generation
+4. **WAI Layer** - Integration with the Haskell web application interface
+
+## Type System
+
+Nacre leverages GHC's type system to provide compile-time guarantees about API correctness.
+
+## Extensibility
+
+The framework is designed to be extended through:
+
+- Custom middleware
+- Type-safe plugins
+- WAI integration

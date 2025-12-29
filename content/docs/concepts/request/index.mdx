@@ -1,0 +1,32 @@
+---
+title: Overview
+---
+
+A request describes the shape of an incoming HTTP request. Each aspect of a request has its own DSL for type-safe composition.
+
+```haskell
+input
+  = request
+  & method GET
+  & path do
+      lit "users"
+      userId <- capture @Int "id"
+      pure userId
+  & query do
+      page <- page .= param @Int "page"
+      pure page
+  & headers none
+  & body none
+  & security none
+```
+
+## Components
+
+<Cards>
+  <Card title="Method" href="/docs/concepts/request/method" />
+  <Card title="Path" href="/docs/concepts/request/path" />
+  <Card title="Query" href="/docs/concepts/request/query" />
+  <Card title="Headers" href="/docs/concepts/request/headers" />
+  <Card title="Body" href="/docs/concepts/request/body" />
+  <Card title="Security" href="/docs/concepts/request/security" />
+</Cards>

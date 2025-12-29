@@ -1,0 +1,16 @@
+---
+title: Route
+---
+
+Routes associate a request with its possible responses. They define the complete API specification for an endpoint.
+
+```haskell
+-- Associate input with outputs
+route = input :-> outputs
+```
+
+The `:->` operator creates a route from a request and response specification. This route can then be used to:
+
+- Generate API documentation
+- Create type-safe handlers
+- Derive client code

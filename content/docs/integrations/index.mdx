@@ -1,0 +1,24 @@
+---
+title: Overview
+---
+
+Nacre generates type-safe clients for your frontend framework of choice.
+
+## Available Integrations
+
+<Cards>
+  <Card title="React" href="/docs/integrations/react" />
+  <Card title="TanStack Query" href="/docs/integrations/tanstack-query" />
+  <Card title="Vue" href="/docs/integrations/vue" />
+</Cards>
+
+## How It Works
+
+Nacre can generate client code from your API definitions, ensuring your frontend stays in sync with your backend types.
+
+```haskell
+-- Generate clients
+generateClients "src/client" $ Server.do
+  getUserAction
+  createUserAction
+```

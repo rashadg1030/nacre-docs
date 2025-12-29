@@ -1,0 +1,37 @@
+---
+title: Vue
+---
+
+Use Nacre APIs with Vue.
+
+## Installation
+
+```bash
+npm install @nacre/vue
+```
+
+## Usage
+
+```vue
+<script setup lang="ts">
+import { useGetUser } from './nacre-client';
+
+const props = defineProps<{ userId: number }>();
+const { data, isLoading, error } = useGetUser(props.userId);
+</script>
+
+<template>
+  <div v-if="isLoading">Loading...</div>
+  <div v-else-if="error">Error: {{ error.message }}</div>
+  <div v-else>{{ data.name }}</div>
+</template>
+```
+
+## Composables
+
+Nacre generates Vue composables for each action:
+
+- `useGetUser` - Fetch a user
+- `useCreateUser` - Create a user
+- `useUpdateUser` - Update a user
+- `useDeleteUser` - Delete a user

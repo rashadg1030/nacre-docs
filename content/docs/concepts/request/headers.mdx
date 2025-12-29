@@ -1,0 +1,33 @@
+---
+title: Headers
+---
+
+The Headers DSL extracts and validates HTTP request headers.
+
+```haskell
+headers do
+  auth <- header @Text "Authorization"
+  contentType <- header @Text "Content-Type"
+  pure (auth, contentType)
+```
+
+## Required Headers
+
+```haskell
+header @Text "Authorization"
+header @Text "X-API-Key"
+```
+
+## Optional Headers
+
+```haskell
+optionalHeader @Text "X-Request-Id"
+```
+
+## No Headers
+
+When no headers are needed:
+
+```haskell
+headers none
+```

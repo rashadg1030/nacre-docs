@@ -1,0 +1,51 @@
+---
+title: Nacre.Action
+---
+
+API reference for the `Nacre.Action` module.
+
+<HaskellRefList defs={[
+  {
+    kind: 'function',
+    name: '(:=)',
+    signature: '(:=) :: Route path query headers reqBody resHeaders resBody -> Handler path query headers reqBody resBody -> Action',
+    module: 'Nacre.Action',
+    description: 'Bind a handler to a route, creating an executable action.',
+    example: `action = route := \\Input{..} -> do
+  -- handler logic
+  pure result`,
+  },
+  {
+    kind: 'data',
+    name: 'Input',
+    params: ['path', 'query', 'headers', 'body'],
+    module: 'Nacre.Action',
+    description: 'The input record passed to handlers. Use record wildcards for convenient access.',
+    constructors: [{
+      name: 'Input',
+      fields: [
+        { name: 'pathData', type: 'path' },
+        { name: 'queryData', type: 'query' },
+        { name: 'headerData', type: 'headers' },
+        { name: 'bodyData', type: 'body' },
+      ],
+    }],
+    example: `action = route := \\Input{..} -> do
+  let userId = pathData
+  let page = queryData
+  -- ...`,
+  },
+  {
+    kind: 'type',
+    name: 'Handler',
+    params: ['path', 'query', 'headers', 'reqBody', 'resBody'],
+    module: 'Nacre.Action',
+    description: 'Handlers are functions from Input to IO of the response body.',
+  },
+  {
+    kind: 'data',
+    name: 'Action',
+    module: 'Nacre.Action',
+    description: 'An executable action combining a route with its handler.',
+  },
+]} />

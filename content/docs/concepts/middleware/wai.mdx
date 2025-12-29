@@ -1,0 +1,14 @@
+---
+title: WAI Middleware
+---
+
+Nacre can integrate with standard WAI middleware for compatibility with the broader Haskell ecosystem.
+
+WAI (Web Application Interface) is the standard interface for Haskell web applications. Any existing WAI middleware can be used with Nacre.
+
+```haskell
+-- Example: Using WAI middleware
+import Network.Wai.Middleware.RequestLogger (logStdoutDev)
+
+app = logStdoutDev $ toApplication server
+```

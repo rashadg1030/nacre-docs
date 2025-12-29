@@ -1,0 +1,32 @@
+---
+title: Typed Middleware
+---
+
+Typed middleware integrates with the contract system, providing compile-time guarantees about request and response transformations.
+
+```haskell
+modifyReq = ...
+
+modifyResps = ...
+
+modifyHandler = ...
+
+middleware = modifyReq @-> modifyResps @= modifyHandler
+```
+
+## Applying to a Single Endpoint
+
+```haskell
+endpoint = someReq :-> someResps := someHandler
+
+newEndpoint = middleware endpoint
+```
+
+## Applying to Multiple Endpoints
+
+```haskell
+newServer = middleware Server.do
+  endpoint1
+  endpoint2
+  endpoint3
+```
