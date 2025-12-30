@@ -1,0 +1,129 @@
+---
+title: Response
+---
+
+A response describes the shape of an HTTP response. Like request, each aspect has its own DSL.
+
+```haskell
+output
+  = response
+  & status 200
+  & headers none
+  & body @Text
+```
+
+## Response Choice
+
+When an endpoint can return different responses:
+
+```haskell
+ok = response
+  & status 200
+  & body @User
+
+notFound = response
+  & status 404
+  & body @ErrorMessage
+
+outputs = either notFound ok
+```
+
+## Status
+
+The Status DSL specifies the HTTP status code for a response.
+
+```haskell
+status 200
+status 201
+status 404
+status 500
+```
+
+### Common Status Codes
+
+#### Success
+```haskell
+status 200  -- OK
+status 201  -- Created
+status 204  -- No Content
+```
+
+#### Client Errors
+```haskell
+status 400  -- Bad Request
+status 401  -- Unauthorized
+status 403  -- Forbidden
+status 404  -- Not Found
+status 422  -- Unprocessable Entity
+```
+
+#### Server Errors
+```haskell
+status 500  -- Internal Server Error
+status 502  -- Bad Gateway
+status 503  -- Service Unavailable
+```
+
+## Headers
+
+The Headers DSL specifies response headers.
+
+```haskell
+headers do
+  header "Content-Type" "application/json"
+  header "X-Request-Id" requestId
+```
+
+### Setting Headers
+
+```haskell
+header "Cache-Control" "max-age=3600"
+header "X-Custom-Header" value
+```
+
+### No Headers
+
+When no custom headers are needed:
+
+```haskell
+headers none
+```
+
+## Body
+
+The Body DSL specifies the response body type.
+
+```haskell
+body @User
+body @Text
+body @Value
+```
+
+### JSON Response
+
+Return a type as JSON:
+
+```haskell
+data User = User
+  { id :: Int
+  , name :: Text
+  }
+
+body @User
+```
+
+### Text Response
+
+Return plain text:
+
+```haskell
+body @Text
+```
+
+### No Body
+
+For responses with no body (like 204 No Content):
+
+```haskell
+body none
+```

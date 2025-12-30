@@ -73,6 +73,13 @@ header:has(nav) {
   position: relative;
   overflow: visible;
   z-index: 0;
+  /* Keep white/pearly appearance in both themes */
+  background-color: hsl(40 33% 96%) !important;
+  color: hsl(220 20% 15%) !important;
+}
+
+.nacre-hover:hover {
+  background-color: hsl(40 33% 92%) !important;
 }
 
 /* Shimmer overlay */

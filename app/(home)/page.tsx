@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { CodeCarousel } from '@/components/CodeCarousel';
+import { CodeBlock, Pre } from 'fumadocs-ui/components/codeblock';
+import { highlight } from 'fumadocs-core/highlight';
 
 // Official Haskell logo (from github.com/haskell/haskell-mode)
 function HaskellLogo({ className }: { className?: string }) {
@@ -34,15 +35,64 @@ function AgdaLogo({ className }: { className?: string }) {
   );
 }
 
-export default function HomePage() {
+const code = `input
+  = request
+  & method GET
+  & path do
+      lit "users"
+      userId <- capture @Int "id"
+      pure userId
+  & query do
+      page <- param @Int "page"
+      pure page
+  & body none
+  & headers none
+  & security none
+
+outputs = either notFound ok
+  where
+    ok
+      = response
+      & status 200
+      & body @Text
+      & headers none
+
+    notFound
+      = response
+      & status 404
+      & body @Aeson.Value
+      & headers none
+
+action = route := handler
+  where
+    route = input :-> outputs
+
+    handler = \\Input{..} -> do
+      user <- findUser path.userId
+      case user of
+        Nothing -> pure $ Left $ Output {..}
+        Just u  -> pure $ Right $ Output {..}
+
+server = Server.do
+  getUserAction
+  createUserAction
+  updateUserAction
+  deleteUserAction`;
+
+export default async function HomePage() {
+  const rendered = await highlight(code, {
+    lang: 'haskell',
+    components: { pre: Pre },
+  });
+
   return (
     <main className="flex-1">
       {/* Hero Section */}
       <section className="min-h-[calc(100vh-4rem)] flex items-center">
         <div className="container mx-auto px-8 md:px-16 lg:px-24 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left Column - Text */}
-            <div className="order-2 lg:order-1">
+            {/* Text - Left on desktop, first on mobile */}
+            <div className="order-1">
               <h1 className="text-2xl lg:text-4xl text-fd-muted-foreground mb-8 leading-relaxed">
                 A structured, composable web framework for Haskell.
                 Build type-safe APIs layer by layer.
@@ -50,7 +100,7 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-4 mb-12">
                 <Link
                   href="/docs"
-                  className="nacre-hover inline-flex items-center px-6 py-3 rounded-lg bg-fd-primary text-fd-primary-foreground font-medium transition-colors hover:bg-fd-primary/90"
+                  className="nacre-hover inline-flex items-center px-6 py-3 rounded-lg font-medium transition-colors"
                 >
                   Get Started
                 </Link>
@@ -90,9 +140,9 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column - Code Carousel */}
-            <div className="order-1 lg:order-2">
-              <CodeCarousel />
+            {/* Code Block - Right on desktop, second on mobile */}
+            <div className="order-2">
+              <CodeBlock>{rendered}</CodeBlock>
             </div>
           </div>
         </div>
