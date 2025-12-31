@@ -8,7 +8,7 @@ export function baseOptions(): BaseLayoutProps {
       title: (
         <span className="flex items-center gap-2">
           <PearlLogo />
-          <span className="font-serif text-xl">Nacre</span>
+          <span className="font-serif text-2xl font-light">Nacre</span>
         </span>
       ),
     },
